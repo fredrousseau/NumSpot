@@ -1,4 +1,6 @@
 #!/bin/bash
+# v.1.1 - Add condition command sed (line 72-78)
+
 set -e  # Stop script execution on error
 
 # Check if jq is installed
@@ -66,7 +68,13 @@ curl --silent --fail --location "$ENDPOINT/kubernetes/spaces/$SPACE_ID/clusters/
     --header "Authorization: Bearer $TOKEN" || { echo "❌ ERROR: Failed to download kubeconfig!"; exit 1; }
 
 echo "🔄 Patching kubeconfig..."
-sed -i '' "s|$API_URL|127.0.0.1|g" kubeconfig.yaml || { echo "❌ ERROR: Failed to patch kubeconfig!"; exit 1; }
+if [[ "$(uname)" == "Darwin" ]]; then
+  # macOS (BSD sed)
+  sed -i '' "s|$API_URL|127.0.0.1|g" kubeconfig.yaml || { echo "❌ ERROR: Failed to patch kubeconfig!"; exit 1; }
+else
+  # Linux (GNU sed)
+  sed -i "s|$API_URL|127.0.0.1|g" kubeconfig.yaml || { echo "❌ ERROR: Failed to patch kubeconfig!"; exit 1; }
+fi
 
 echo "✅ Kubeconfig downloaded and patched!"
 
@@ -99,3 +107,5 @@ unset SERVICE_ACCOUNT_KEY
 unset SERVICE_ACCOUNT_SECRET
 unset SPACE_ID
 unset CLUSTER_ID
+
+
