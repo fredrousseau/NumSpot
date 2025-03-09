@@ -4,20 +4,22 @@ set -eo pipefail  # Stop script execution on error, including piped commands
 
 
 usage() {
-    echo "Usage: $0 [options]"
-    echo ""
-    echo "Options:"
-    echo "  -h, --help          Affiche cette aide et quitte."
-    echo "  -c, --config FILE   Spécifie le fichier de configuration."
-    echo ""
-    echo "Config File Format: "
-    echo ""
-    echo "REGION='AAAA'"
-    echo "SERVICE_ACCOUNT_KEY='BBBB'"
-    echo "SERVICE_ACCOUNT_SECRET='CCCC'"
-    echo "SPACE_ID=='DDDD'"
-    echo "CLUSTER_ID=='EEEE'"
-    echo ""
+    cat <<EOF
+Usage: $SCRIPT_NAME [options]
+
+Options:
+  -h, --help          Affiche cette aide et quitte.
+  -c, --config FILE   Spécifie le fichier de configuration.
+
+Config File Format: 
+
+REGION='AAAA'
+SERVICE_ACCOUNT_KEY='BBBB'
+SERVICE_ACCOUNT_SECRET='CCCC'
+SPACE_ID='DDDD'
+CLUSTER_ID='EEEE'
+
+EOF
     exit 0
 }
 
