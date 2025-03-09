@@ -5,7 +5,7 @@ set -eo pipefail  # Stop script execution on error, including piped commands
 
 usage() {
     cat <<EOF
-Usage: $SCRIPT_NAME [options]
+Usage: $0 [options]
 
 Options:
   -h, --help          Affiche cette aide et quitte.
