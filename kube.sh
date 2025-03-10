@@ -2,7 +2,6 @@
 
 set -eo pipefail  # Stop script execution on error, including piped commands
 
-
 usage() {
     cat <<EOF
 Usage: $0 [options]
@@ -23,10 +22,8 @@ EOF
     exit 0
 }
 
-
 main() {
-
-    # Si l'option d'aide est demandée
+    # Ask for Help
     if [[ "$2" == "-h" || "$2" == "--help" ]]; then
         usage
     fi
@@ -54,8 +51,6 @@ main() {
     check_dependency "ssh"
     check_dependency "base64"
 
- 
-
     # Check required variables
     check_variable "REGION"
     check_variable "SERVICE_ACCOUNT_KEY"
@@ -76,7 +71,7 @@ main() {
     log "INFO" "Retrieving Authentication Token."
 
     # Create auth credentials and get token
-    AUTH_VALUE=$(echo -n "$SERVICE_ACCOUNT_KEY:$SERVICE_ACCOUNT_SECRET" | base64)
+    AUTH_VALUE=$(echo -n "$SERVICE_ACCOUNT_KEY:$SERVICE_ACCOUNT_SECRET" | base64 -w 0 )
 
     RESPONSE=$(make_api_call "$ENDPOINT/iam/token" "POST" \
     --header="Content-Type: application/x-www-form-urlencoded" \
